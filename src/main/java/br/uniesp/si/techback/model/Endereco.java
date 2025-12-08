@@ -2,7 +2,6 @@ package br.uniesp.si.techback.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.UUID;
 
 @Getter
@@ -19,24 +18,24 @@ public class Endereco {
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false, length = 150)
+    @Column(length = 150, nullable = false)
     private String logradouro;
 
-    @Column(nullable = false, length = 20)
+    @Column(length = 20, nullable = false)
     private String numero;
 
     @Column(length = 150)
     private String complemento;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100, nullable = false)
     private String bairro;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100, nullable = false)
     private String cidade;
 
-    @Column(nullable = false, length = 2)
+    @Column(length = 2, nullable = false)
     private String estado;
 
-    @Column(nullable = false, length = 9)
+    @Column(length = 9, nullable = false)
     private String cep;
 }

@@ -2,16 +2,16 @@ package br.uniesp.si.techback.controller;
 
 import br.uniesp.si.techback.dto.usuario.UsuarioCreateDTO;
 import br.uniesp.si.techback.dto.usuario.UsuarioResponseDTO;
+import br.uniesp.si.techback.dto.usuario.UsuarioUpdateDTO;
 import br.uniesp.si.techback.service.UsuarioService;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
     private final UsuarioService service;
@@ -21,24 +21,30 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioResponseDTO> criar(@Valid @RequestBody UsuarioCreateDTO dto) {
-        UsuarioResponseDTO criado = service.criar(dto);
-        return ResponseEntity.created(URI.create("/api/usuarios/" + criado.id())).body(criado);
+    public UsuarioResponseDTO criar(@Valid @RequestBody UsuarioCreateDTO dto) {
+        return service.criar(dto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDTO> buscar(@PathVariable UUID id) {
-        return ResponseEntity.ok(service.buscarPorId(id));
+    public UsuarioResponseDTO buscar(@PathVariable UUID id) {
+        return service.buscar(id);
+    }
+
+    @GetMapping
+    public List<UsuarioResponseDTO> listar() {
+        return service.listar();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDTO> atualizar(@PathVariable UUID id, @Valid @RequestBody UsuarioCreateDTO dto) {
-        return ResponseEntity.ok(service.atualizar(id, dto));
+    public UsuarioResponseDTO atualizar(
+            @PathVariable UUID id,
+            @Valid @RequestBody UsuarioUpdateDTO dto
+    ) {
+        return service.atualizar(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
+    public void deletar(@PathVariable UUID id) {
         service.deletar(id);
-        return ResponseEntity.noContent().build();
     }
 }

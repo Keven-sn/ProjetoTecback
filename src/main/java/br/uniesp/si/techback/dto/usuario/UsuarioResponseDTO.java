@@ -1,9 +1,7 @@
 package br.uniesp.si.techback.dto.usuario;
 
-import br.uniesp.si.techback.dto.EnderecoDTO;
-
+import br.uniesp.si.techback.dto.endereco.EnderecoResponseDTO;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record UsuarioResponseDTO(
@@ -13,7 +11,5 @@ public record UsuarioResponseDTO(
         String email,
         String cpfCnpj,
         String perfil,
-        LocalDateTime criadoEm,
-        LocalDateTime atualizadoEm,
-        EnderecoDTO endereco
+        EnderecoResponseDTO endereco
 ) {}

@@ -13,6 +13,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 @Embeddable
 public class FavoritoId implements Serializable {
+
     private UUID usuarioId;
     private UUID conteudoId;
 }

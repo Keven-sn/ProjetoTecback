@@ -125,12 +125,8 @@ CREATE TABLE favoritos (
     usuario_id UUID NOT NULL,
     conteudo_id UUID NOT NULL,
     criado_em TIMESTAMP(3) NOT NULL DEFAULT now(),
-
     PRIMARY KEY (usuario_id, conteudo_id),
-
-    CONSTRAINT fk_favorito_usuario FOREIGN KEY (usuario_id)
-        REFERENCES usuarios(id) ON DELETE CASCADE,
-
-    CONSTRAINT fk_favorito_conteudo FOREIGN KEY (conteudo_id)
-        REFERENCES conteudo(id) ON DELETE CASCADE
+    CONSTRAINT fk_favorito_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    CONSTRAINT fk_favorito_conteudo FOREIGN KEY (conteudo_id) REFERENCES conteudo(id) ON DELETE CASCADE
 );
+

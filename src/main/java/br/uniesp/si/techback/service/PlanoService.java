@@ -1,8 +1,10 @@
 package br.uniesp.si.techback.service;
 
-import br.uniesp.si.techback.dto.plano.*;
+import br.uniesp.si.techback.dto.plano.PlanoCreateDTO;
+import br.uniesp.si.techback.dto.plano.PlanoResponseDTO;
 import br.uniesp.si.techback.model.Plano;
 import br.uniesp.si.techback.repository.PlanoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,71 +13,37 @@ import java.util.UUID;
 @Service
 public class PlanoService {
 
-    private final PlanoRepository repo;
+    private final PlanoRepository repository;
 
-    public PlanoService(PlanoRepository repo) {
-        this.repo = repo;
+    public PlanoService(PlanoRepository repository) {
+        this.repository = repository;
     }
 
     public PlanoResponseDTO criar(PlanoCreateDTO dto) {
+        Plano p = new Plano();
+        p.setNome(dto.nome());
+        p.setDescricao(dto.descricao());
+        p.setValorMensal(dto.valorMensal());
+        p.setResolucao(dto.resolucao());
+        p.setDispositivos(dto.dispositivos());
 
-        if (repo.existsByNomeIgnoreCase(dto.nome())) {
-            throw new IllegalArgumentException("Já existe um plano com este nome.");
-        }
-
-        Plano plano = Plano.builder()
-                .nome(dto.nome())
-                .descricao(dto.descricao())
-                .valorMensal(dto.valorMensal())
-                .resolucao(dto.resolucao())
-                .dispositivos(dto.dispositivos())
-                .build();
-
-        repo.save(plano);
-
-        return toResponse(plano);
+        return toResponse(repository.save(p));
     }
 
-    public List<PlanoResponseDTO> listarTodos() {
-        return repo.findAll()
-                .stream()
-                .map(this::toResponse)
-                .toList();
+    public PlanoResponseDTO buscar(UUID id) {
+        Plano p = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Plano não encontrado"));
+        return toResponse(p);
     }
 
-    public PlanoResponseDTO buscarPorId(UUID id) {
-        Plano plano = repo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Plano não encontrado"));
-        return toResponse(plano);
+    public List<PlanoResponseDTO> listar() {
+        return repository.findAll().stream().map(this::toResponse).toList();
     }
-
-    public PlanoResponseDTO atualizar(UUID id, PlanoUpdateDTO dto) {
-        Plano plano = repo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Plano não encontrado"));
-
-        if (dto.nome() != null) plano.setNome(dto.nome());
-        if (dto.descricao() != null) plano.setDescricao(dto.descricao());
-        if (dto.valorMensal() != null) plano.setValorMensal(dto.valorMensal());
-        if (dto.resolucao() != null) plano.setResolucao(dto.resolucao());
-        if (dto.dispositivos() != null) plano.setDispositivos(dto.dispositivos());
-
-        repo.save(plano);
-        return toResponse(plano);
-    }
-
-    public void deletar(UUID id) {
-        if (!repo.existsById(id)) {
-            throw new IllegalArgumentException("Plano não encontrado");
-        }
-        repo.deleteById(id);
-    }
-
 
     private PlanoResponseDTO toResponse(Plano p) {
         return new PlanoResponseDTO(
                 p.getId(),
                 p.getNome(),
-                p.getDescricao(),
                 p.getValorMensal(),
                 p.getResolucao(),
                 p.getDispositivos()

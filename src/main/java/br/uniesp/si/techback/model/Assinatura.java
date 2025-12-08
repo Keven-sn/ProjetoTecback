@@ -2,12 +2,12 @@ package br.uniesp.si.techback.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -25,12 +25,12 @@ public class Assinatura {
     @Column(name = "plano_id", nullable = false)
     private UUID planoId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "metodo_pagamento_id")
     private MetodoPagamento metodoPagamento;
 
     @Column(nullable = false, length = 20)
-    private String status; // ATIVA | EM_ATRASO | CANCELADA
+    private String status;
 
     @Column(name = "iniciada_em", nullable = false)
     private LocalDateTime iniciadaEm;

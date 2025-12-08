@@ -2,22 +2,21 @@ package br.uniesp.si.techback.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.UuidGenerator;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@EqualsAndHashCode(of = "id")
+@Entity
 @Table(name = "planos")
 public class Plano {
 
     @Id
-    @UuidGenerator
+    @GeneratedValue
     private UUID id;
 
     @Column(nullable = false, unique = true, length = 100)
@@ -27,7 +26,7 @@ public class Plano {
     private String descricao;
 
     @Column(name = "valor_mensal", nullable = false)
-    private BigDecimal valorMensal;
+    private Double valorMensal;
 
     @Column(nullable = false, length = 10)
     private String resolucao;
@@ -40,15 +39,4 @@ public class Plano {
 
     @Column(name = "atualizado_em", nullable = false)
     private LocalDateTime atualizadoEm;
-
-    @PrePersist
-    public void prePersist() {
-        this.criadoEm = LocalDateTime.now();
-        this.atualizadoEm = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.atualizadoEm = LocalDateTime.now();
-    }
 }

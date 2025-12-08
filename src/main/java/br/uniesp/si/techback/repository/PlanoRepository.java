@@ -8,7 +8,6 @@ import java.util.UUID;
 
 public interface PlanoRepository extends JpaRepository<Plano, UUID> {
 
-    Optional<Plano> findByNomeIgnoreCase(String nome);
+    Optional<Plano> findByNome(String nome);
 
-    boolean existsByNomeIgnoreCase(String nome);
 }

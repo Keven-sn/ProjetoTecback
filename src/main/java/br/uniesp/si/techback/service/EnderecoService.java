@@ -1,13 +1,14 @@
 package br.uniesp.si.techback.service;
 
-import br.uniesp.si.techback.dto.EnderecoDTO;
+import br.uniesp.si.techback.dto.endereco.EnderecoDTO;
 import br.uniesp.si.techback.model.Endereco;
 import br.uniesp.si.techback.repository.EnderecoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
-@Transactional
 public class EnderecoService {
 
     private final EnderecoRepository repository;
@@ -17,16 +18,19 @@ public class EnderecoService {
     }
 
     public Endereco salvar(EnderecoDTO dto) {
-        if (dto == null) return null;
-        Endereco e = Endereco.builder()
-                .logradouro(dto.logradouro())
-                .numero(dto.numero())
-                .complemento(dto.complemento())
-                .bairro(dto.bairro())
-                .cidade(dto.cidade())
-                .estado(dto.estado())
-                .cep(dto.cep())
-                .build();
+        Endereco e = new Endereco();
+        e.setLogradouro(dto.logradouro());
+        e.setNumero(dto.numero());
+        e.setComplemento(dto.complemento());
+        e.setBairro(dto.bairro());
+        e.setCidade(dto.cidade());
+        e.setEstado(dto.estado());
+        e.setCep(dto.cep());
         return repository.save(e);
+    }
+
+    public Endereco buscar(UUID id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Endereço não encontrado"));
     }
 }

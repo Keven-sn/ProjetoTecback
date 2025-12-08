@@ -2,9 +2,6 @@ package br.uniesp.si.techback.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -22,10 +19,10 @@ public class Conteudo {
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false, length = 200)
+    @Column(length = 200, nullable = false)
     private String titulo;
 
-    @Column(nullable = false, length = 10)
+    @Column(length = 10, nullable = false)
     private String tipo;
 
     @Column(nullable = false)
@@ -34,10 +31,10 @@ public class Conteudo {
     @Column(name = "duracao_minutos", nullable = false)
     private Integer duracaoMinutos;
 
-    @Column(nullable = false, precision = 6, scale = 2)
+    @Column(nullable = false)
     private Double relevancia;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String sinopse;
 
     @Column(name = "trailer_url", length = 500)
@@ -46,11 +43,9 @@ public class Conteudo {
     @Column(length = 50)
     private String genero;
 
-    @CreationTimestamp
-    @Column(name = "criado_em", nullable = false, updatable = false)
+    @Column(name = "criado_em", nullable = false)
     private LocalDateTime criadoEm;
 
-    @UpdateTimestamp
     @Column(name = "atualizado_em", nullable = false)
     private LocalDateTime atualizadoEm;
 }

@@ -1,22 +1,10 @@
 package br.uniesp.si.techback.dto.plano;
 
 import jakarta.validation.constraints.*;
-import java.math.BigDecimal;
 
 public record PlanoUpdateDTO(
-
-        @Size(max = 100)
-        String nome,
-
-        @Size(max = 500)
         String descricao,
-
-        @DecimalMin(value = "0.01")
-        BigDecimal valorMensal,
-
-        @Size(max = 10)
+        @DecimalMin("1.00") Double valorMensal,
         String resolucao,
-
-        @Min(1)
-        Integer dispositivos
+        @Min(1) Integer dispositivos
 ) {}

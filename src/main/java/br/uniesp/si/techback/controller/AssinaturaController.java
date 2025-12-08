@@ -2,7 +2,6 @@ package br.uniesp.si.techback.controller;
 
 import br.uniesp.si.techback.dto.assinatura.AssinaturaCreateDTO;
 import br.uniesp.si.techback.dto.assinatura.AssinaturaResponseDTO;
-import br.uniesp.si.techback.dto.assinatura.AssinaturaUpdateDTO;
 import br.uniesp.si.techback.service.AssinaturaService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -25,18 +24,18 @@ public class AssinaturaController {
         return service.criar(dto);
     }
 
-    @PatchMapping("/{id}/cancelar")
+    @GetMapping("/{id}")
+    public AssinaturaResponseDTO buscar(@PathVariable UUID id) {
+        return service.buscar(id);
+    }
+
+    @PostMapping("/{id}/cancelar")
     public AssinaturaResponseDTO cancelar(@PathVariable UUID id) {
         return service.cancelar(id);
     }
 
     @GetMapping("/status/{status}")
     public List<AssinaturaResponseDTO> listarPorStatus(@PathVariable String status) {
-        return service.listarPorStatus(status.toUpperCase());
-    }
-
-    @GetMapping("/usuario/{usuarioId}")
-    public List<AssinaturaResponseDTO> listarPorUsuario(@PathVariable UUID usuarioId) {
-        return service.listarPorUsuario(usuarioId);
+        return service.listarPorStatus(status);
     }
 }

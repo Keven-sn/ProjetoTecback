@@ -2,30 +2,29 @@ package br.uniesp.si.techback.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.UuidGenerator;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@EqualsAndHashCode(of = "id")
+@Entity
 @Table(name = "metodos_pagamento")
 public class MetodoPagamento {
 
     @Id
-    @UuidGenerator
+    @GeneratedValue
     private UUID id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "usuario_id")
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
     @Column(nullable = false, length = 20)
-    private String tipo; // CARTAO | PIX | BOLETO
+    private String tipo;
 
     @Column(length = 100)
     private String apelido;
@@ -43,27 +42,11 @@ public class MetodoPagamento {
     private String chavePix;
 
     @Column(nullable = false)
-    private boolean ativo;
+    private Boolean ativo;
 
     @Column(name = "criado_em", nullable = false)
     private LocalDateTime criadoEm;
 
     @Column(name = "atualizado_em", nullable = false)
     private LocalDateTime atualizadoEm;
-
-    @PrePersist
-    public void prePersist() {
-        criadoEm = LocalDateTime.now();
-        atualizadoEm = LocalDateTime.now();
-        ativo = true;
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        atualizadoEm = LocalDateTime.now();
-    }
-
-    public String getUltimos4() {
-        return null;
-    }
 }
