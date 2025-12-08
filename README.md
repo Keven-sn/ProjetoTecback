@@ -18,7 +18,7 @@ Este projeto foi desenvolvido utilizando **Spring Boot 3**, **Spring Data JPA**,
 - [🔧 Migrations com Flyway](#-migrations-com-flyway)
 - [✔ Critérios de Aceite Atendidos](#-critérios-de-aceite-atendidos)
 - [📌 Extras Implementados](#-extras-implementados)
-- [👤 Autor](#-autor)
+- [👤 Autores](#-autores)
 
 ---
 
