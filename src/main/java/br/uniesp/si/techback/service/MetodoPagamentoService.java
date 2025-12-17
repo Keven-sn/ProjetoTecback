@@ -28,18 +28,16 @@ public class MetodoPagamentoService {
         Usuario usuario = usuarioRepository.findById(dto.usuarioId())
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
-        MetodoPagamento m = new MetodoPagamento();
-        m.setUsuario(usuario);
-        m.setBandeira(dto.bandeira());
-        m.setApelido(dto.apelido());
-        m.setNumeroMascarado(dto.numeroMascarado());
-        m.setUltimos4(dto.ultimos4());
-        m.setMesExp(dto.mesExp());
-        m.setAnoExp(dto.anoExp());
-        m.setNomePortador(dto.nomePortador());
+        MetodoPagamento mp = new MetodoPagamento();
+        mp.setUsuario(usuario);
+        mp.setBandeira(dto.bandeira());
+        mp.setUltimos4(dto.ultimos4());
+        mp.setMesExp(dto.mesExp());
+        mp.setAnoExp(dto.anoExp());
+        mp.setNomePortador(dto.nomePortador());
 
 
-        return toResponse(repository.save(m));
+        return toResponse(repository.save(mp));
     }
 
 
