@@ -54,14 +54,14 @@ organização e aderência ao modelo relacional fornecido pelo professor.
 
 # 📁 Estrutura do Projeto
 
-src/main/java/br/uniesp/si/techback/  
+src/main/java/br/uniesp/si/techback/     
 │  
-├── controller/ → Controllers REST  
-├── service/ → Regras de negócio  
-├── repository/ → Interfaces JPA  
-├── model/ → Entidades JPA  
-├── dto/ → DTOs de entrada e saída
-├── config/ → Configurações auxiliares 
+├── controller/ → Controllers REST      
+├── service/ → Regras de negócio    
+├── repository/ → Interfaces JPA    
+├── model/ → Entidades JPA    
+├── dto/ → DTOs de entrada e saída  
+├── config/ → Configurações auxiliares   
 └── TechbackApplication.java
 
 ---
@@ -174,29 +174,12 @@ A documentação completa está no Swagger:
 ```bash
   git clone https://github.com/Keven-sn/ProjetoTecback.git
   ```
-
-### 2. Configurar PostgreSQL
-```yaml
- Crie o banco: CREATE DATABASE techback;
-```
-
-### 3. Configurar application.yml
-```yaml
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/techback
-    username: postgres
-    password: sua_senha
- ```
     
-### 4. Executar
+### 2. Executar
 ```yaml
 Via Maven: mvn spring-boot:run
 ```
-### 🐘 Configuração PostgreSQL
-```yaml
-Habilitar extensão: CREATE EXTENSION IF NOT EXISTS pgcrypto;
-```
+
 ### 🔧 Migrations com Flyway
 
 V1 — Criação das tabelas
