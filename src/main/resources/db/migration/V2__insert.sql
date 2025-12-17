@@ -5,7 +5,7 @@ INSERT INTO plano (id, codigo, limite_diario, streams_simultaneos)
 VALUES
     (random_uuid(), 'BASICO', 5, 1),
     (random_uuid(), 'PADRAO', 10, 2),
-    (random_uuid(), 'PREMIUM', 20, 4);
+    (random_uuid(), 'PREMIUM', NULL, 4);
 
 -- ============================
 -- CONTEUDOS DE EXEMPLO

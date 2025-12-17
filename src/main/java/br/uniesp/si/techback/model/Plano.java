@@ -19,7 +19,7 @@ public class Plano {
     @Column(nullable = false, unique = true, length = 20)
     private String codigo; // BASICO, PADRAO, PREMIUM
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer limiteDiario;
 
     @Column(nullable = false)

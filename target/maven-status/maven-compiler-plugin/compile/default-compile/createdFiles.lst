@@ -1,0 +1,4 @@
+br\uniesp\si\techback\dto\cep\ViaCepResponse.class
+br\uniesp\si\techback\model\enums\StatusAssinatura.class
+br\uniesp\si\techback\model\enums\TipoConteudo.class
+br\uniesp\si\techback\model\enums\PerfilUsuario.class

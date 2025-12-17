@@ -22,9 +22,20 @@ public class PlanoService {
     // ============================
     public PlanoResponseDTO criar(PlanoCreateDTO dto) {
 
+        // limiteDiario:
+        // null = ilimitado
+        // >= 0 = limite definido
+        if (dto.limiteDiario() != null && dto.limiteDiario() < 0) {
+            throw new IllegalArgumentException("Limite diário não pode ser negativo");
+        }
+
+        if (dto.streamsSimultaneos() <= 0) {
+            throw new IllegalArgumentException("Streams simultâneos deve ser maior que zero");
+        }
+
         Plano plano = new Plano();
         plano.setCodigo(dto.codigo());
-        plano.setLimiteDiario(dto.limiteDiario());
+        plano.setLimiteDiario(dto.limiteDiario()); // null = ilimitado
         plano.setStreamsSimultaneos(dto.streamsSimultaneos());
 
         return toResponse(repository.save(plano));

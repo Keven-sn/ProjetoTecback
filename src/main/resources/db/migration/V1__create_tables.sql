@@ -35,7 +35,7 @@ CREATE TABLE endereco (
 CREATE TABLE plano (
     id UUID PRIMARY KEY,
     codigo VARCHAR(20) NOT NULL UNIQUE,
-    limite_diario INTEGER NOT NULL,
+    limite_diario INTEGER ,
     streams_simultaneos INTEGER NOT NULL
 );
 
@@ -66,9 +66,9 @@ CREATE TABLE metodo_pagamento (
     ultimos4 VARCHAR(4) NOT NULL,
     mes_exp INTEGER NOT NULL,
     ano_exp INTEGER NOT NULL,
-    nome_portador VARCHAR(150) NOT NULL,
-    token_gateway VARCHAR(120) NOT NULL,
-    criado_em TIMESTAMP NOT NULL,
+    nome_portador VARCHAR(150),
+    token_gateway VARCHAR(120),
+    criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_metodo_usuario
         FOREIGN KEY (usuario_id) REFERENCES usuario(id)

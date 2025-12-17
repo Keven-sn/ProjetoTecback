@@ -24,6 +24,12 @@ public class MetodoPagamento {
     @Column(nullable = false, length = 20)
     private String bandeira;
 
+    @Column(nullable = false)
+    private String apelido;
+
+    @Column(nullable = false)
+    private String numeroMascarado;
+
     @Column(nullable = false, length = 4)
     private String ultimos4;
 
