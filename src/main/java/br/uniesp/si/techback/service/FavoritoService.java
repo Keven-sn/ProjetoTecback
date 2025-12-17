@@ -50,8 +50,8 @@ public class FavoritoService {
 
     private FavoritoResponseDTO toResponse(Favorito f) {
         return new FavoritoResponseDTO(
-                f.getUsuarioId(),
-                f.getConteudoId(),
+                f.getId().getUsuarioId(),
+                f.getId().getConteudoId(),
                 f.getCriadoEm()
         );
     }

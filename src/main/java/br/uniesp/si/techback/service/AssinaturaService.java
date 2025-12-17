@@ -1,7 +1,7 @@
 package br.uniesp.si.techback.service;
 
 import br.uniesp.si.techback.dto.assinatura.AssinaturaCreateDTO;
-import br.uniesp.si.techback.dto.assinatura.AssinaturaUpdateMetodoDTO;
+import br.uniesp.si.techback.dto.assinatura.AssinaturaUpdateDTO;
 import br.uniesp.si.techback.dto.assinatura.AssinaturaResponseDTO;
 import br.uniesp.si.techback.model.Assinatura;
 import br.uniesp.si.techback.model.MetodoPagamento;
@@ -74,7 +74,7 @@ public class AssinaturaService {
         boolean cobrado = executarCobrancaMock(metodo);
 
         Assinatura nova = new Assinatura();
-        nova.setUsuario(usuario);
+        nova.SetUsurio(usuario);
         nova.setPlano(plano);
         nova.setMetodoPagamento(metodo);
         nova.setStatus(cobrado ? "ATIVA" : "EM_ATRASO");
@@ -131,7 +131,7 @@ public class AssinaturaService {
     // ========================================================================
     // TROCAR MÉTODO DE PAGAMENTO
     // ========================================================================
-    public AssinaturaResponseDTO atualizarMetodo(UUID assinaturaId, AssinaturaUpdateMetodoDTO dto) {
+    public AssinaturaResponseDTO atualizarMetodo(UUID assinaturaId, AssinaturaUpdateDTO dto) {
 
         Assinatura assinatura = assinaturaRepository.findById(assinaturaId)
                 .orElseThrow(() -> new EntityNotFoundException("Assinatura não encontrada"));
@@ -176,8 +176,8 @@ public class AssinaturaService {
     private AssinaturaResponseDTO toResponse(Assinatura a) {
         return new AssinaturaResponseDTO(
                 a.getId(),
-                a.getUsuario().getId(),
-                a.getPlano().getId(),
+                a.getUsuarioId().getClass(),
+                a.getPlano().getClass(),
                 a.getMetodoPagamento() != null ? a.getMetodoPagamento().getId() : null,
                 a.getStatus(),
                 a.getIniciadaEm(),

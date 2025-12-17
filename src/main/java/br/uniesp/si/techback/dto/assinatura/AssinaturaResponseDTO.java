@@ -6,6 +6,7 @@ import java.util.UUID;
 public record AssinaturaResponseDTO(
         UUID id,
         UUID usuarioId,
+        UUID buscar,
         UUID planoId,
         UUID metodoPagamentoId,
         String status,
