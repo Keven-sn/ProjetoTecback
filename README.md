@@ -25,13 +25,13 @@ Este projeto foi desenvolvido utilizando **Spring Boot 3**, **Spring Data JPA**,
 # 📌 Sobre o Projeto
 O **TechBack** é uma API REST inspirada em plataformas de streaming (Netflix / Prime Video).
 
-- Funcionalidades principais:
+Funcionalidades principais:
 - Cadastro e gerenciamento de usuários
 - Endereços vinculados a usuários
 - Catálogo de conteúdos (filmes e séries)
 - Planos de assinatura
 - Assinaturas de usuários
-- Métodos de pagamento tokenizados
+- Métodos de pagamento cadastrados (simulação acadêmica)
 - Lista de conteúdos favoritos
 - O projeto foi desenvolvido com foco acadêmico, priorizando clareza,
 organização e aderência ao modelo relacional fornecido pelo professor.
@@ -68,7 +68,7 @@ src/main/java/br/uniesp/si/techback/
 
 # 🗄️ Modelagem do Banco de Dados
 
-Todas as tabelas são criadas automaticamente via Flyway (V1).
+As tabelas são versionadas e criadas automaticamente via Flyway (V1, V2).
 
 Principais tabelas:
 
@@ -105,8 +105,8 @@ Todas utilizando:
 
 O projeto segue o padrão:
 
-- `CreateDTO` (entrada)
-- `ResponseDTO` (saída)
+- `CreateDTO` → Entrada de dados
+- `ResponseDTO` → Saída de dados (evita exposição de entidades)
 
 Exemplos:
 
