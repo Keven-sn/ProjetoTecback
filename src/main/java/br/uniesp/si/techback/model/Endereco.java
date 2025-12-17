@@ -2,40 +2,42 @@ package br.uniesp.si.techback.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.UUID;
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "enderecos")
+@Table(name = "endereco")
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Endereco {
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    @Column(length = 150, nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
+    @Column(nullable = false, length = 150)
     private String logradouro;
 
-    @Column(length = 20, nullable = false)
+    @Column(nullable = false, length = 20)
     private String numero;
 
-    @Column(length = 150)
+    @Column(length = 100)
     private String complemento;
 
-    @Column(length = 100, nullable = false)
+    @Column(nullable = false, length = 80)
     private String bairro;
 
-    @Column(length = 100, nullable = false)
+    @Column(nullable = false, length = 80)
     private String cidade;
 
-    @Column(length = 2, nullable = false)
+    @Column(nullable = false, length = 2)
     private String estado;
 
-    @Column(length = 9, nullable = false)
+    @Column(nullable = false, length = 8)
     private String cep;
 }

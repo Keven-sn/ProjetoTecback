@@ -9,5 +9,4 @@ import java.util.UUID;
 public interface MetodoPagamentoRepository extends JpaRepository<MetodoPagamento, UUID> {
 
     List<MetodoPagamento> findByUsuarioId(UUID usuarioId);
-
 }

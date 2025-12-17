@@ -6,11 +6,10 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.UUID;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Embeddable
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
+@EqualsAndHashCode
 public class FavoritoId implements Serializable {
 
     private UUID usuarioId;

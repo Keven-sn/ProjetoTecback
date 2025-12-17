@@ -3,23 +3,26 @@ package br.uniesp.si.techback.service;
 import br.uniesp.si.techback.dto.conteudo.ConteudoCreateDTO;
 import br.uniesp.si.techback.dto.conteudo.ConteudoResponseDTO;
 import br.uniesp.si.techback.model.Conteudo;
+import br.uniesp.si.techback.model.enums.TipoConteudo;
 import br.uniesp.si.techback.repository.ConteudoRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ConteudoService {
 
     private final ConteudoRepository repository;
 
-    public ConteudoService(ConteudoRepository repository) {
-        this.repository = repository;
-    }
-
+    // ============================
+    // CRIAR
+    // ============================
     public ConteudoResponseDTO criar(ConteudoCreateDTO dto) {
+
         Conteudo c = new Conteudo();
         c.setTitulo(dto.titulo());
         c.setTipo(dto.tipo());
@@ -33,17 +36,54 @@ public class ConteudoService {
         return toResponse(repository.save(c));
     }
 
+    // ============================
+    // BUSCAR
+    // ============================
     public ConteudoResponseDTO buscar(UUID id) {
         Conteudo c = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Conteúdo não encontrado"));
         return toResponse(c);
     }
 
-    public List<ConteudoResponseDTO> listar() {
-        return repository.findAll()
-                .stream().map(this::toResponse).toList();
+    // ============================
+    // LISTAR COM FILTRO
+    // ============================
+    public List<ConteudoResponseDTO> listar(TipoConteudo tipo, String genero, String q) {
+        return repository.filtrar(tipo, genero, q)
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
+    // ============================
+    // ATUALIZAR
+    // ============================
+    public ConteudoResponseDTO atualizar(UUID id, ConteudoCreateDTO dto) {
+        Conteudo c = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Conteúdo não encontrado"));
+
+        c.setTitulo(dto.titulo());
+        c.setTipo(dto.tipo());
+        c.setAno(dto.ano());
+        c.setDuracaoMinutos(dto.duracaoMinutos());
+        c.setRelevancia(dto.relevancia());
+        c.setSinopse(dto.sinopse());
+        c.setGenero(dto.genero());
+        c.setTrailerUrl(dto.trailerUrl());
+
+        return toResponse(repository.save(c));
+    }
+
+    // ============================
+    // EXCLUIR
+    // ============================
+    public void excluir(UUID id) {
+        repository.deleteById(id);
+    }
+
+    // ============================
+    // MAPPER
+    // ============================
     private ConteudoResponseDTO toResponse(Conteudo c) {
         return new ConteudoResponseDTO(
                 c.getId(),

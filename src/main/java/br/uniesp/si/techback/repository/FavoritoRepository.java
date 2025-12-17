@@ -11,4 +11,5 @@ public interface FavoritoRepository extends JpaRepository<Favorito, FavoritoId> 
 
     List<Favorito> findByUsuarioIdOrderByCriadoEmDesc(UUID usuarioId);
 
+    boolean existsById(FavoritoId id);
 }

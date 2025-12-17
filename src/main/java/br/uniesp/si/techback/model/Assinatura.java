@@ -1,40 +1,37 @@
 package br.uniesp.si.techback.model;
 
+import br.uniesp.si.techback.model.enums.StatusAssinatura;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "assinaturas")
+@Table(name = "assinatura")
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Assinatura {
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    @Column(name = "usuario_id", nullable = false)
-    private UUID usuarioId;
-
-    @Column(name = "plano_id", nullable = false)
-    private UUID planoId;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "metodo_pagamento_id")
-    private MetodoPagamento metodoPagamento;
+    @JoinColumn(nullable = false)
+    private Plano plano;
 
-    @Column(nullable = false, length = 20)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StatusAssinatura status;
 
-    @Column(name = "iniciada_em", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime iniciadaEm;
 
-    @Column(name = "cancelada_em")
     private LocalDateTime canceladaEm;
 }

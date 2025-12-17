@@ -2,17 +2,15 @@ package br.uniesp.si.techback.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "metodos_pagamento")
+@Table(name = "metodo_pagamento")
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class MetodoPagamento {
 
     @Id
@@ -24,29 +22,28 @@ public class MetodoPagamento {
     private Usuario usuario;
 
     @Column(nullable = false, length = 20)
-    private String tipo;
-
-    @Column(length = 100)
-    private String apelido;
-
-    @Column(length = 30)
     private String bandeira;
 
-    @Column(name = "numero_mascarado", length = 20)
-    private String numeroMascarado;
-
-    @Column(length = 5)
-    private String expiracao;
-
-    @Column(name = "chave_pix", length = 120)
-    private String chavePix;
+    @Column(nullable = false, length = 4)
+    private String ultimos4;
 
     @Column(nullable = false)
-    private Boolean ativo;
+    private Integer mesExp;
 
-    @Column(name = "criado_em", nullable = false)
+    @Column(nullable = false)
+    private Integer anoExp;
+
+    @Column(nullable = false, length = 150)
+    private String nomePortador;
+
+    @Column(nullable = false, length = 120)
+    private String tokenGateway;
+
+    @Column(nullable = false)
     private LocalDateTime criadoEm;
 
-    @Column(name = "atualizado_em", nullable = false)
-    private LocalDateTime atualizadoEm;
+    @PrePersist
+    void prePersist() {
+        criadoEm = LocalDateTime.now();
+    }
 }

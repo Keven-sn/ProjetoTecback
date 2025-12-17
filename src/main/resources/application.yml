@@ -1,39 +1,39 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: techback
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/iespflx
-    username: postgres
-    password: 123456
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:mem:techback-db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
 
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: validate
-    show-sql: false
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
     properties:
       hibernate:
         format_sql: true
-        jdbc:
-          lob:
-            non_contextual_creation: true
-
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
-    baseline-on-migrate: true
 
   jackson:
-    property-naming-strategy: SNAKE_CASE
+    serialization:
+      write-dates-as-timestamps: false
 
-server:
-  port: 8080
-
-logging:
-  level:
-    root: INFO
-    org.hibernate.SQL: WARN
-    org.springframework.web: INFO
-  pattern:
-    level: "%5p [cid=%X{correlationId}]"
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+  api-docs:
+    path: /v3/api-docs

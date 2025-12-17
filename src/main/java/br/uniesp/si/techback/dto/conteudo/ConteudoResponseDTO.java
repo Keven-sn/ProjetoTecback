@@ -1,15 +1,15 @@
 package br.uniesp.si.techback.dto.conteudo;
 
+import br.uniesp.si.techback.model.enums.TipoConteudo;
+
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public record ConteudoResponseDTO(
         UUID id,
         String titulo,
-        String tipo,
+        TipoConteudo tipo,
+        String genero,
         Integer ano,
-        Integer duracaoMinutos,
-        Double relevancia,
-        String sinopse,
-        String trailerUrl,
-        String genero
+        BigDecimal relevancia
 ) {}

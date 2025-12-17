@@ -1,6 +1,6 @@
 package br.uniesp.si.techback.service;
 
-import br.uniesp.si.techback.dto.ViaCepResponse;
+import br.uniesp.si.techback.dto.cep.ViaCepResponse;
 import br.uniesp.si.techback.exception.CepInvalidoException;
 import br.uniesp.si.techback.exception.CepNaoEncontradoException;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class ViaCepService {
     public ViaCepResponse buscarEnderecoPorCep(String cep) {
         // Remove caracteres não numéricos do CEP
         String cepLimpo = cep.replaceAll("[^0-9]", "");
-        
+
         // Valida o CEP
         if (cepLimpo.length() != 8) {
             throw new CepInvalidoException(cep);
@@ -34,8 +34,8 @@ public class ViaCepService {
         try {
             // Faz a requisição para a API do ViaCEP
             ViaCepResponse response = restTemplate.getForObject(
-                    VIA_CEP_URL, 
-                    ViaCepResponse.class, 
+                    VIA_CEP_URL,
+                    ViaCepResponse.class,
                     cepLimpo
             );
 

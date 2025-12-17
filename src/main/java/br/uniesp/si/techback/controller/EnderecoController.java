@@ -2,25 +2,22 @@ package br.uniesp.si.techback.controller;
 
 import br.uniesp.si.techback.dto.endereco.EnderecoCreateDTO;
 import br.uniesp.si.techback.dto.endereco.EnderecoResponseDTO;
-import br.uniesp.si.techback.dto.endereco.EnderecoUpdateDTO;
 import br.uniesp.si.techback.service.EnderecoService;
-import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/enderecos")
+@RequestMapping("/api/v1/enderecos")
+@RequiredArgsConstructor
 public class EnderecoController {
 
     private final EnderecoService service;
 
-    public EnderecoController(EnderecoService service) {
-        this.service = service;
-    }
-
     @PostMapping
-    public EnderecoResponseDTO criar(@Valid @RequestBody EnderecoCreateDTO dto) {
+    public EnderecoResponseDTO criar(@RequestBody EnderecoCreateDTO dto) {
         return service.criar(dto);
     }
 
@@ -29,11 +26,13 @@ public class EnderecoController {
         return service.buscar(id);
     }
 
-    @PutMapping("/{id}")
-    public EnderecoResponseDTO atualizar(
-            @PathVariable UUID id,
-            @Valid @RequestBody EnderecoUpdateDTO dto
-    ) {
-        return service.atualizar(id, dto);
+    @GetMapping("/usuario/{usuarioId}")
+    public List<EnderecoResponseDTO> listarPorUsuario(@PathVariable UUID usuarioId) {
+        return service.listarPorUsuario(usuarioId);
+    }
+
+    @DeleteMapping("/{id}")
+    public void excluir(@PathVariable UUID id) {
+        service.excluir(id);
     }
 }

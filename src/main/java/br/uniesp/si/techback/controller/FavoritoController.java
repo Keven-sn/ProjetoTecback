@@ -3,24 +3,21 @@ package br.uniesp.si.techback.controller;
 import br.uniesp.si.techback.dto.favorito.FavoritoCreateDTO;
 import br.uniesp.si.techback.dto.favorito.FavoritoResponseDTO;
 import br.uniesp.si.techback.service.FavoritoService;
-import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/favoritos")
+@RequestMapping("/api/v1/favoritos")
+@RequiredArgsConstructor
 public class FavoritoController {
 
     private final FavoritoService service;
 
-    public FavoritoController(FavoritoService service) {
-        this.service = service;
-    }
-
     @PostMapping
-    public FavoritoResponseDTO adicionar(@Valid @RequestBody FavoritoCreateDTO dto) {
+    public FavoritoResponseDTO adicionar(@RequestBody FavoritoCreateDTO dto) {
         return service.adicionar(dto);
     }
 
@@ -32,8 +29,8 @@ public class FavoritoController {
         service.remover(usuarioId, conteudoId);
     }
 
-    @GetMapping("/{usuarioId}")
+    @GetMapping("/usuario/{usuarioId}")
     public List<FavoritoResponseDTO> listar(@PathVariable UUID usuarioId) {
-        return service.listarPorUsuario(usuarioId);
+        return service.listar(usuarioId);
     }
 }

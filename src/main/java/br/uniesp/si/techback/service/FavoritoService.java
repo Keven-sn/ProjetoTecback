@@ -1,11 +1,13 @@
 package br.uniesp.si.techback.service;
 
+import br.uniesp.si.techback.dto.favorito.FavoritoCreateDTO;
 import br.uniesp.si.techback.dto.favorito.FavoritoResponseDTO;
-import br.uniesp.si.techback.model.Favorito;
+import br.uniesp.si.techback.model.*;
 import br.uniesp.si.techback.repository.ConteudoRepository;
 import br.uniesp.si.techback.repository.FavoritoRepository;
 import br.uniesp.si.techback.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,45 +15,64 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class FavoritoService {
 
-    private final FavoritoRepository repository;
+    private final FavoritoRepository favoritoRepository;
     private final UsuarioRepository usuarioRepository;
     private final ConteudoRepository conteudoRepository;
 
-    public FavoritoService(FavoritoRepository repository,
-                           UsuarioRepository usuarioRepository,
-                           ConteudoRepository conteudoRepository) {
-        this.repository = repository;
-        this.usuarioRepository = usuarioRepository;
-        this.conteudoRepository = conteudoRepository;
+    // ============================
+    // ADICIONAR
+    // ============================
+    public FavoritoResponseDTO adicionar(FavoritoCreateDTO dto) {
+
+        Usuario usuario = usuarioRepository.findById(dto.usuarioId())
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+
+        Conteudo conteudo = conteudoRepository.findById(dto.conteudoId())
+                .orElseThrow(() -> new EntityNotFoundException("Conteúdo não encontrado"));
+
+        FavoritoId id = new FavoritoId(dto.usuarioId(), dto.conteudoId());
+
+        if (favoritoRepository.existsById(id)) {
+            throw new IllegalArgumentException("Conteúdo já está nos favoritos");
+        }
+
+        Favorito favorito = new Favorito();
+        favorito.setId(id);
+        favorito.setUsuario(usuario);
+        favorito.setConteudo(conteudo);
+        favorito.setCriadoEm(LocalDateTime.now());
+
+        return toResponse(favoritoRepository.save(favorito));
     }
 
-    public FavoritoResponseDTO adicionar(UUID usuarioId, UUID conteudoId) {
-
-        if (!usuarioRepository.existsById(usuarioId))
-            throw new EntityNotFoundException("Usuário não encontrado");
-
-        if (!conteudoRepository.existsById(conteudoId))
-            throw new EntityNotFoundException("Conteúdo não encontrado");
-
-        Favorito fav = new Favorito(usuarioId, conteudoId, LocalDateTime.now());
-        return toResponse(repository.save(fav));
-    }
-
+    // ============================
+    // REMOVER
+    // ============================
     public void remover(UUID usuarioId, UUID conteudoId) {
-        repository.deleteById(usuarioId, conteudoId);
+        FavoritoId id = new FavoritoId(usuarioId, conteudoId);
+        favoritoRepository.deleteById(id);
     }
 
+    // ============================
+    // LISTAR POR USUÁRIO
+    // ============================
     public List<FavoritoResponseDTO> listar(UUID usuarioId) {
-        return repository.findByUsuarioId(usuarioId)
-                .stream().map(this::toResponse).toList();
+        return favoritoRepository.findByUsuarioIdOrderByCriadoEmDesc(usuarioId)
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
+    // ============================
+    // MAPPER
+    // ============================
     private FavoritoResponseDTO toResponse(Favorito f) {
         return new FavoritoResponseDTO(
-                f.getId().getUsuarioId(),
-                f.getId().getConteudoId(),
+                f.getUsuario().getId(),
+                f.getConteudo().getId(),
                 f.getCriadoEm()
         );
     }

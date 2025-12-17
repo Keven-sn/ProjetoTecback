@@ -1,19 +1,14 @@
 package br.uniesp.si.techback.dto.usuario;
 
-import br.uniesp.si.techback.dto.endereco.EnderecoCreateDTO;
-import br.uniesp.si.techback.validation.CPFouCNPJ;
-import br.uniesp.si.techback.validation.EnumSubset;
-import br.uniesp.si.techback.validation.SenhaForte;
-import jakarta.validation.constraints.*;
+import br.uniesp.si.techback.model.enums.PerfilUsuario;
 
 import java.time.LocalDate;
 
 public record UsuarioCreateDTO(
-        @NotBlank @Size(max = 150) String nomeCompleto,
-        @NotNull LocalDate dataNascimento,
-        @NotBlank @Email @Size(max = 254) String email,
-        @NotBlank @SenhaForte String senha,
-        @CPFouCNPJ String cpfCnpj,
-        @NotBlank @EnumSubset(anyOf = {"ADMIN", "USER"}) String perfil,
-        EnderecoCreateDTO endereco
+        String nomeCompleto,
+        LocalDate dataNascimento,
+        String email,
+        String senha,
+        String cpfCnpj,
+        PerfilUsuario perfil
 ) {}

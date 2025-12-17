@@ -4,9 +4,7 @@ import java.util.UUID;
 
 public record PlanoResponseDTO(
         UUID id,
-        String nome,
-        String descricao,
-        Double valorMensal,
-        String resolucao,
-        Integer dispositivos
+        String codigo,
+        Integer limiteDiario,
+        Integer streamsSimultaneos
 ) {}

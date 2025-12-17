@@ -8,6 +8,5 @@ import java.util.UUID;
 
 public interface PlanoRepository extends JpaRepository<Plano, UUID> {
 
-    Optional<Plano> findByNome(String nome);
-
+    Optional<Plano> findByCodigo(String codigo);
 }

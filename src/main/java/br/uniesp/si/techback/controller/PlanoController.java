@@ -2,26 +2,22 @@ package br.uniesp.si.techback.controller;
 
 import br.uniesp.si.techback.dto.plano.PlanoCreateDTO;
 import br.uniesp.si.techback.dto.plano.PlanoResponseDTO;
-import br.uniesp.si.techback.dto.plano.PlanoUpdateDTO;
 import br.uniesp.si.techback.service.PlanoService;
-import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/planos")
+@RequestMapping("/api/v1/planos")
+@RequiredArgsConstructor
 public class PlanoController {
 
     private final PlanoService service;
 
-    public PlanoController(PlanoService service) {
-        this.service = service;
-    }
-
     @PostMapping
-    public PlanoResponseDTO criar(@Valid @RequestBody PlanoCreateDTO dto) {
+    public PlanoResponseDTO criar(@RequestBody PlanoCreateDTO dto) {
         return service.criar(dto);
     }
 
@@ -35,16 +31,8 @@ public class PlanoController {
         return service.buscar(id);
     }
 
-    @PutMapping("/{id}")
-    public PlanoResponseDTO atualizar(
-            @PathVariable UUID id,
-            @Valid @RequestBody PlanoUpdateDTO dto
-    ) {
-        return service.atualizar(id, dto);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deletar(@PathVariable UUID id) {
-        service.deletar(id);
+    @GetMapping("/codigo/{codigo}")
+    public PlanoResponseDTO buscarPorCodigo(@PathVariable String codigo) {
+        return service.buscarPorCodigo(codigo);
     }
 }

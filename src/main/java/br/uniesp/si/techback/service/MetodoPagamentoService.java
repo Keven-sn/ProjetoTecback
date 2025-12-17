@@ -3,56 +3,71 @@ package br.uniesp.si.techback.service;
 import br.uniesp.si.techback.dto.metodo.MetodoPagamentoCreateDTO;
 import br.uniesp.si.techback.dto.metodo.MetodoPagamentoResponseDTO;
 import br.uniesp.si.techback.model.MetodoPagamento;
+import br.uniesp.si.techback.model.Usuario;
 import br.uniesp.si.techback.repository.MetodoPagamentoRepository;
 import br.uniesp.si.techback.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class MetodoPagamentoService {
 
     private final MetodoPagamentoRepository repository;
     private final UsuarioRepository usuarioRepository;
 
-    public MetodoPagamentoService(MetodoPagamentoRepository repository, UsuarioRepository usuarioRepository) {
-        this.repository = repository;
-        this.usuarioRepository = usuarioRepository;
-    }
-
+    // ============================
+    // CRIAR
+    // ============================
     public MetodoPagamentoResponseDTO criar(MetodoPagamentoCreateDTO dto) {
 
-        if (!usuarioRepository.existsById(dto.usuarioId())) {
-            throw new EntityNotFoundException("Usuário não encontrado");
-        }
+        Usuario usuario = usuarioRepository.findById(dto.usuarioId())
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
-        MetodoPagamento m = new MetodoPagamento();
-        m.setUsuarioId(dto.usuarioId());
-        m.setTipo(dto.tipo());
-        m.setApelido(dto.apelido());
-        m.setNumeroMascarado(dto.numeroMascarado());
-        m.setUltimos4(dto.ultimos4());
-        m.setExpiracao(dto.expiracao());
-        m.setChavePix(dto.chavePix());
+        MetodoPagamento metodo = new MetodoPagamento();
+        metodo.setUsuario(usuario);
+        metodo.setBandeira(dto.bandeira());
+        metodo.setUltimos4(dto.ultimos4());
+        metodo.setMesExp(dto.mesExp());
+        metodo.setAnoExp(dto.anoExp());
+        metodo.setNomePortador(dto.nomePortador());
+        metodo.setTokenGateway(dto.tokenGateway());
 
-        return toResponse(repository.save(m));
+        return toResponse(repository.save(metodo));
     }
 
+    // ============================
+    // LISTAR POR USUÁRIO
+    // ============================
     public List<MetodoPagamentoResponseDTO> listar(UUID usuarioId) {
         return repository.findByUsuarioId(usuarioId)
-                .stream().map(this::toResponse).toList();
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
+    // ============================
+    // REMOVER
+    // ============================
+    public void remover(UUID id) {
+        repository.deleteById(id);
+    }
+
+    // ============================
+    // MAPPER
+    // ============================
     private MetodoPagamentoResponseDTO toResponse(MetodoPagamento m) {
         return new MetodoPagamentoResponseDTO(
                 m.getId(),
-                m.getUsuarioId(),
-                m.getTipo(),
-                m.getApelido(),
+                m.getUsuario().getId(),
+                m.getBandeira(),
                 m.getUltimos4(),
-                m.getAtivo()
+                m.getMesExp(),
+                m.getAnoExp()
         );
     }
 }

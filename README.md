@@ -23,34 +23,32 @@ Este projeto foi desenvolvido utilizando **Spring Boot 3**, **Spring Data JPA**,
 ---
 
 # 📌 Sobre o Projeto
-O **TechBack** é uma API REST inspirada em plataformas de streaming (como Netflix/Prime).  
-Permite:
+O **TechBack** é uma API REST inspirada em plataformas de streaming (Netflix / Prime Video).
 
+- Funcionalidades principais:
 - Cadastro e gerenciamento de usuários
-- Controle de assinaturas
-- Métodos de pagamento
-- Catálogo de conteúdos
-- Lista de favoritos
+- Endereços vinculados a usuários
+- Catálogo de conteúdos (filmes e séries)
 - Planos de assinatura
-- Integração externa (ViaCEP)
-- Autovalidação com Bean Validation + custom validators
-
-O código segue padrões profissionais e está totalmente modularizado.
+- Assinaturas de usuários
+- Métodos de pagamento tokenizados
+- Lista de conteúdos favoritos
+- O projeto foi desenvolvido com foco acadêmico, priorizando clareza,
+organização e aderência ao modelo relacional fornecido pelo professor.
 
 ---
 
 # ⚙ Tecnologias Utilizadas
 
 - **Java 17**
-- **Spring Boot 3.4**
+- **Spring Boot 3**
 - **Spring Web**
 - **Spring Data JPA (Hibernate)**
-- **PostgreSQL**
-- **Flyway**
+- **H2 Database (ambiente de desenvolvimento)**
+- **Spring Validation (Jakarta Validation)**
 - **Lombok**
-- **Bean Validation (Jakarta Validation)**
-- **RestTemplate para integração externa**
-- **H2 (modo desenvolvimento opcional)**
+- **Spring Security Crypto (apenas BCrypt para hash de senha)**
+- **SpringDoc OpenAPI (Swagger)**
 
 ---
 
@@ -62,9 +60,8 @@ src/main/java/br/uniesp/si/techback/
 ├── service/ → Regras de negócio  
 ├── repository/ → Interfaces JPA  
 ├── model/ → Entidades JPA  
-├── dto/ → DTOs de entrada e saída  
-├── exception/ → Exceções e Handler Global  
-├── config/ → Configurações (RestTemplate, etc.)  
+├── dto/ → DTOs de entrada e saída
+├── config/ → Configurações auxiliares 
 └── TechbackApplication.java
 
 ---
@@ -99,8 +96,7 @@ Todas utilizando:
 
 - `UUID`
 - `LocalDate / LocalDateTime`
-- `@Entity`
-- `@Builder`
+- `Relacionamentos JPA (@ManyToOne, @EmbeddedId)`
 - `@EqualsAndHashCode(of = "id")`
 
 ---
@@ -110,13 +106,11 @@ Todas utilizando:
 O projeto segue o padrão:
 
 - `CreateDTO` (entrada)
-- `UpdateDTO` (entrada)
 - `ResponseDTO` (saída)
 
 Exemplos:
 
 - `UsuarioCreateDTO`
-- `UsuarioUpdateDTO`
 - `UsuarioResponseDTO`
 
 ---
@@ -124,55 +118,52 @@ Exemplos:
 # 🌐 Endpoints da API
 
 A documentação completa está no Swagger:
+```bash
+  http://localhost:8080/swagger-ui.html
+```
 
-http://localhost:8080/swagger-ui.html
-
-
-### Principais recursos fornecidos:
+### Exemplos de endpoints:
 
 ### **Usuários**
 
-POST /usuarios  
-GET /usuarios/{id}  
-PUT /usuarios/{id}  
-GET /usuarios
+- POST `/api/v1/usuarios`  
+- GET `/api/v1/usuarios/{id}`
 
 
 ### **Conteúdos**
 
-GET /conteudos  
-POST /conteudos  
-PUT /conteudos/{id}  
-DELETE /conteudos/{id}
+- GET `/api/v1/conteudos`  
+- POST `/api/v1/conteudos`  
+- PUT `/api/v1/conteudos/{id}`  
+- DELETE `/api/v1/conteudos/{id}`
 
 
 ### **Planos**
 
-GET /planos  
-GET /planos/{id}  
-POST /planos
+- GET `/api/v1/planos`  
+- GET `/api/v1/planos/{id}`  
+- POST `/api/v1/planos`
 
 
 ### **Assinaturas**
 
-POST /assinaturas  
-DELETE /assinaturas/{id}  
-GET /assinaturas/usuario/{id}  
-GET /assinaturas/status/{status}
-
+- POST `/api/v1/assinaturas`  
+- PUT `/api/v1/assinaturas/{id}/cancelar`  
+- GET `/api/v1/assinaturas/usuario/{usuarioId}`  
+- GET `/api/v1/assinaturas/status/{status}`
 
 ### **Favoritos**
 
-POST /favoritos  
-DELETE /favoritos  
-GET /favoritos/{usuarioId}
+- POST `/api/v1/favoritos`  
+- DELETE `/api/v1/favoritos`  
+- GET `/api/v1/favoritos/usuario/{usuarioId}`
 
 
 ### **Métodos de Pagamento**
 
-POST /metodos  
-GET /metodos/usuario/{id}  
-DELETE /metodos/{id}
+- POST `/api/v1/metodos-pagamento`  
+- GET `/api/v1/metodos-pagamento/usuario/{usuarioId}`  
+- DELETE `/api/v1/metodos-pagamento/{id}`
 
 
 ---
@@ -217,41 +208,42 @@ V2 — Inserts iniciais
 Arquivo: src/main/resources/db/migration/V2__insert.sql
 ```
 
-#### Flyway roda AUTOMATICAMENTE ao iniciar o projeto.
+#### O banco H2 será inicializado automaticamente.
 
 ---
 
 # ✔ Critérios de Aceite Atendidos  
-✔ Modelo relacional fiel às tabelas  
-✔ Validações Bean Validation  
-✔ Custom Validators:  
-CPF/CNPJ  
-EnumSubset  
-SenhaForte  
-✔ APIs REST completas  
-✔ Consultas JPQL implementadas  
-✔ Lombok aplicado em todas entidades  
-✔ Exceções globais padronizadas  
-✔ Logs estruturados  
-✔ Integração externa ViaCEP  
-✔ Flyway configurado  
+✔ Modelo relacional fiel ao enunciado  
+✔ Arquitetura REST  
+✔ Uso correto de DTOs  
+✔ Regras de negócio no Service  
+✔ JPA com relacionamentos corretos  
+✔ Enum para estados fixos  
+✔ Hash de senha com BCrypt  
+✔ Swagger configurado  
+✔ Código limpo e organizado
 
 ---
 
 # 📌 Extras Implementados
 
-🔵 Integração automática com ViaCEP  
-🔵 Renovação automática (mock) de assinaturas  
-🔵 Mascaramento automático de cartão  
-🔵 Estratégia extensível de pagamento  
-🔵 DTOs separados para entrada/saída  
-🔵 Regras de negócio isoladas no serviço  
-🔵 Custom exceptions limpas e padronizadas
+🔵 Uso de DTOs para entrada e saída de dados  
+🔵 Utilização de UUID como chave primária  
+🔵 Uso de enums para estados fixos do domínio  
+🔵 Relacionamentos JPA corretamente mapeados  
+🔵 Chave composta em Favorito com `@EmbeddedId`  
+🔵 Hash de senha com BCrypt  
+🔵 Documentação automática da API com Swagger  
+🔵 Filtros de busca no catálogo de conteúdos  
+🔵 Integração externa com a API ViaCEP para consulta de endereços
 
 ---
 
 # 👤 Autores
 
-##### Keven Douglas, Entony Lucas, Ridael Paulo  
+##### Keven Douglas  
+##### Entony Lucas
+
+---
 ##### Projeto desenvolvido para disciplina de Tecnologias para Back-end  
 ##### Universidade: UNIESP
