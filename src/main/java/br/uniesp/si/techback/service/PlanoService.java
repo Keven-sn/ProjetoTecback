@@ -17,14 +17,11 @@ public class PlanoService {
 
     private final PlanoRepository repository;
 
-    // ============================
+
     // CRIAR
-    // ============================
+
     public PlanoResponseDTO criar(PlanoCreateDTO dto) {
 
-        // limiteDiario:
-        // null = ilimitado
-        // >= 0 = limite definido
         if (dto.limiteDiario() != null && dto.limiteDiario() < 0) {
             throw new IllegalArgumentException("Limite diário não pode ser negativo");
         }
@@ -41,18 +38,18 @@ public class PlanoService {
         return toResponse(repository.save(plano));
     }
 
-    // ============================
+
     // BUSCAR POR ID
-    // ============================
+
     public PlanoResponseDTO buscar(UUID id) {
         Plano plano = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Plano não encontrado"));
         return toResponse(plano);
     }
 
-    // ============================
+
     // LISTAR
-    // ============================
+
     public List<PlanoResponseDTO> listar() {
         return repository.findAll()
                 .stream()
@@ -60,18 +57,18 @@ public class PlanoService {
                 .toList();
     }
 
-    // ============================
+
     // BUSCAR POR CÓDIGO
-    // ============================
+
     public PlanoResponseDTO buscarPorCodigo(String codigo) {
         Plano plano = repository.findByCodigo(codigo)
                 .orElseThrow(() -> new EntityNotFoundException("Plano não encontrado"));
         return toResponse(plano);
     }
 
-    // ============================
-    // MAPPER
-    // ============================
+
+    // MAPEAR
+
     private PlanoResponseDTO toResponse(Plano p) {
         return new PlanoResponseDTO(
                 p.getId(),

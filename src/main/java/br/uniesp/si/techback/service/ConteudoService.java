@@ -18,9 +18,9 @@ public class ConteudoService {
 
     private final ConteudoRepository repository;
 
-    // ============================
+
     // CRIAR
-    // ============================
+
     public ConteudoResponseDTO criar(ConteudoCreateDTO dto) {
 
         Conteudo c = new Conteudo();
@@ -36,18 +36,18 @@ public class ConteudoService {
         return toResponse(repository.save(c));
     }
 
-    // ============================
+
     // BUSCAR
-    // ============================
+
     public ConteudoResponseDTO buscar(UUID id) {
         Conteudo c = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Conteúdo não encontrado"));
         return toResponse(c);
     }
 
-    // ============================
-    // LISTAR COM FILTRO
-    // ============================
+
+    // LISTAR
+
     public List<ConteudoResponseDTO> listar(TipoConteudo tipo, String genero, String q) {
         return repository.filtrar(tipo, genero, q)
                 .stream()
@@ -55,9 +55,9 @@ public class ConteudoService {
                 .toList();
     }
 
-    // ============================
+
     // ATUALIZAR
-    // ============================
+
     public ConteudoResponseDTO atualizar(UUID id, ConteudoCreateDTO dto) {
         Conteudo c = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Conteúdo não encontrado"));
@@ -74,16 +74,16 @@ public class ConteudoService {
         return toResponse(repository.save(c));
     }
 
-    // ============================
+
     // EXCLUIR
-    // ============================
+
     public void excluir(UUID id) {
         repository.deleteById(id);
     }
 
-    // ============================
-    // MAPPER
-    // ============================
+
+    // MAPEAR
+
     private ConteudoResponseDTO toResponse(Conteudo c) {
         return new ConteudoResponseDTO(
                 c.getId(),

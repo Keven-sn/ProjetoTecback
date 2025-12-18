@@ -20,9 +20,9 @@ public class UsuarioService {
     private final UsuarioRepository repository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    // ============================
+
     // CRIAR
-    // ============================
+
     public UsuarioResponseDTO criar(UsuarioCreateDTO dto) {
 
         if (repository.existsByEmail(dto.email())) {
@@ -44,18 +44,18 @@ public class UsuarioService {
         return toResponse(repository.save(usuario));
     }
 
-    // ============================
+
     // BUSCAR POR ID
-    // ============================
+
     public UsuarioResponseDTO buscarPorId(UUID id) {
         Usuario usuario = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
         return toResponse(usuario);
     }
 
-    // ============================
-    // MAPPER
-    // ============================
+
+    // MAPEAR
+
     private UsuarioResponseDTO toResponse(Usuario u) {
         return new UsuarioResponseDTO(
                 u.getId(),

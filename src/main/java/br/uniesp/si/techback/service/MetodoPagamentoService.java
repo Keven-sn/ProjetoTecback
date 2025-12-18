@@ -20,9 +20,9 @@ public class MetodoPagamentoService {
     private final MetodoPagamentoRepository repository;
     private final UsuarioRepository usuarioRepository;
 
-    // ============================
+
     // CRIAR
-    // ============================
+
     public MetodoPagamentoResponseDTO criar(MetodoPagamentoCreateDTO dto) {
 
         Usuario usuario = usuarioRepository.findById(dto.usuarioId())
@@ -41,9 +41,9 @@ public class MetodoPagamentoService {
     }
 
 
-    // ============================
+
     // LISTAR POR USUÁRIO
-    // ============================
+
     public List<MetodoPagamentoResponseDTO> listar(UUID usuarioId) {
         return repository.findByUsuarioId(usuarioId)
                 .stream()
@@ -51,16 +51,16 @@ public class MetodoPagamentoService {
                 .toList();
     }
 
-    // ============================
+
     // REMOVER
-    // ============================
+
     public void remover(UUID id) {
         repository.deleteById(id);
     }
 
-    // ============================
-    // MAPPER
-    // ============================
+
+    // MAPEAR
+
     private MetodoPagamentoResponseDTO toResponse(MetodoPagamento m) {
         return new MetodoPagamentoResponseDTO(
                 m.getId(),

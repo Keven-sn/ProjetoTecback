@@ -22,9 +22,9 @@ public class FavoritoService {
     private final UsuarioRepository usuarioRepository;
     private final ConteudoRepository conteudoRepository;
 
-    // ============================
+
     // ADICIONAR
-    // ============================
+
     public FavoritoResponseDTO adicionar(FavoritoCreateDTO dto) {
 
         Usuario usuario = usuarioRepository.findById(dto.usuarioId())
@@ -48,17 +48,17 @@ public class FavoritoService {
         return toResponse(favoritoRepository.save(favorito));
     }
 
-    // ============================
+
     // REMOVER
-    // ============================
+
     public void remover(UUID usuarioId, UUID conteudoId) {
         FavoritoId id = new FavoritoId(usuarioId, conteudoId);
         favoritoRepository.deleteById(id);
     }
 
-    // ============================
+
     // LISTAR POR USUÁRIO
-    // ============================
+
     public List<FavoritoResponseDTO> listar(UUID usuarioId) {
         return favoritoRepository.findByUsuarioIdOrderByCriadoEmDesc(usuarioId)
                 .stream()
@@ -66,9 +66,9 @@ public class FavoritoService {
                 .toList();
     }
 
-    // ============================
-    // MAPPER
-    // ============================
+
+    // MAPEAR
+
     private FavoritoResponseDTO toResponse(Favorito f) {
         return new FavoritoResponseDTO(
                 f.getUsuario().getId(),

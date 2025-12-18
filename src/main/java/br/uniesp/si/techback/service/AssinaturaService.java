@@ -27,9 +27,9 @@ public class AssinaturaService {
     private final UsuarioRepository usuarioRepository;
     private final PlanoRepository planoRepository;
 
-    // ============================
+
     // CRIAR
-    // ============================
+
     public AssinaturaResponseDTO criar(AssinaturaCreateDTO dto) {
 
         Usuario usuario = usuarioRepository.findById(dto.usuarioId())
@@ -55,9 +55,9 @@ public class AssinaturaService {
         return toResponse(assinaturaRepository.save(assinatura));
     }
 
-    // ============================
+
     // CANCELAR
-    // ============================
+
     public AssinaturaResponseDTO cancelar(UUID id) {
 
         Assinatura assinatura = assinaturaRepository.findById(id)
@@ -69,9 +69,9 @@ public class AssinaturaService {
         return toResponse(assinaturaRepository.save(assinatura));
     }
 
-    // ============================
+
     // LISTAR POR STATUS
-    // ============================
+
     public List<AssinaturaResponseDTO> listarPorStatus(StatusAssinatura status) {
         return assinaturaRepository.findByStatus(status)
                 .stream()
@@ -79,9 +79,9 @@ public class AssinaturaService {
                 .toList();
     }
 
-    // ============================
+
     // LISTAR POR USUÁRIO
-    // ============================
+
     public List<AssinaturaResponseDTO> listarPorUsuario(UUID usuarioId) {
         return assinaturaRepository.findByUsuarioId(usuarioId)
                 .stream()
@@ -89,9 +89,9 @@ public class AssinaturaService {
                 .toList();
     }
 
-    // ============================
-    // MAPPER
-    // ============================
+
+    // MAPEAR
+
     private AssinaturaResponseDTO toResponse(Assinatura a) {
         return new AssinaturaResponseDTO(
                 a.getId(),

@@ -20,9 +20,9 @@ public class EnderecoService {
     private final EnderecoRepository repository;
     private final UsuarioRepository usuarioRepository;
 
-    // ============================
+
     // CRIAR
-    // ============================
+
     public EnderecoResponseDTO criar(EnderecoCreateDTO dto) {
 
         Usuario usuario = usuarioRepository.findById(dto.usuarioId())
@@ -41,18 +41,18 @@ public class EnderecoService {
         return toResponse(repository.save(endereco));
     }
 
-    // ============================
+
     // BUSCAR POR ID
-    // ============================
+
     public EnderecoResponseDTO buscar(UUID id) {
         Endereco endereco = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Endereço não encontrado"));
         return toResponse(endereco);
     }
 
-    // ============================
+
     // LISTAR POR USUÁRIO
-    // ============================
+
     public List<EnderecoResponseDTO> listarPorUsuario(UUID usuarioId) {
         return repository.findByUsuarioId(usuarioId)
                 .stream()
@@ -60,16 +60,16 @@ public class EnderecoService {
                 .toList();
     }
 
-    // ============================
+
     // EXCLUIR
-    // ============================
+
     public void excluir(UUID id) {
         repository.deleteById(id);
     }
 
-    // ============================
-    // MAPPER
-    // ============================
+
+    // MAPEAR
+
     private EnderecoResponseDTO toResponse(Endereco e) {
         return new EnderecoResponseDTO(
                 e.getId(),
